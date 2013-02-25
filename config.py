@@ -4,6 +4,8 @@ import re
 import requests
 
 from _compatibility import input
+import BaseHTTPServer
+PORT_NUMBER = 80 # Maybe set this to 9000.
 
 DESC_CLIENT_ID = "What's your OAuth 2.0 client ID (read README.rst)?"
 DESC_SECRET_ID = "What's your OAUTH 2.0 secrect?"
@@ -32,9 +34,10 @@ def analyze(config):
     check('client_secret')
     url =  GOOGLE_ACCOUNT_URL + "auth?%s&%s&%s&%s" % (
                   "client_id=%s" % config['client_id'],
-                  "redirect_uri=%s" % REDIRECT_URI,
+                  "redirect_uri=%s:%s" % (REDIRECT_URI, PORT_NUMBER), 
                   "scope=https://www.googleapis.com/auth/fusiontables",
                   "response_type=code")
+
     check('openid_code', url)
 
     if not 'contacts' in config:
@@ -66,7 +69,7 @@ def get_token():
         "code":             config['openid_code'],
         "client_id":        config['client_id'],
         "client_secret":    config['client_secret'],
-        "redirect_uri":     REDIRECT_URI,
+        "redirect_uri":     "%s:%s" % (REDIRECT_URI, PORT_NUMBER),
         "grant_type":       "authorization_code",
     }
     from urllib import urlencode
