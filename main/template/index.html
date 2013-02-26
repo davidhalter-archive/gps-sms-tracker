@@ -1,35 +1,35 @@
 {% extends "layout.html" %}
-{% block body %}
-    <div id="sidebar">
-        <h1>GPS Map</h1> 
-        <ul>
-            {% for user in user_list %}
-                <form method='delete'>
-                    <li>
-                        {{ user.name }}: {{ user.phone }}
-                        <input type="hidden" name="action" value="delete" />
-                        <input type="hidden" name="id" value="{{ user.id}}" />
-                        <input type="submit" value="Delete" />
-                    </li>
-                </form>
-            {% endfor %}
-        </ul>
+{% block sidebar %}
 
-        <p>
-            Add new User:
-        </p>
+    <ul class="nav nav-tabs nav-stacked">
+        {% for user in user_list %}
+            
+            <li {% if id == user.id %} class="active" {% endif %}>
+                <a href="/show/{{ user.id }}">
+                    {{ user.name }}: {{ user.phone }}
+                    <button class="btn btn-small btn-danger pull-right"
+                            onclick="window.location = 'delete/{{ user.id }}'; return false" >
+                            
+                        x
+                    </button>
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
 
-        <form method='post'>
-            {% csrf_token %}
-            <table id="add_name">
-                {{ form }}
-            </table>
-            <input type="submit" />
-        </form>
-    </div>
+    <h4>Add new Phone:</h4>
 
-    <div id="map" />
+    <form method='post' class='form-horizontal' target='/'>
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit" value="Add" class="btn btn-primary" />
+    </form>
+{% endblock %}
 
+{% block map %}
+    <script type="text/javascript"
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCir5cI2gZvpKz5aEOtfh7QSmqvtVPhK_w&sensor=false">
+    </script>
     <script>
 function initialize() {
   var myLatLng = new google.maps.LatLng(0, -180);
@@ -39,7 +39,7 @@ function initialize() {
     mapTypeId: google.maps.MapTypeId.TERRAIN
   };
 
-  var map = new google.maps.Map(document.getElementById("map_canvas"),
+  var map = new google.maps.Map(document.getElementById("map"),
       mapOptions);
   var flightPlanCoordinates = [
     new google.maps.LatLng(37.772323, -122.214897),

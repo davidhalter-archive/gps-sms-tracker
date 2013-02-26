@@ -1,19 +1,39 @@
 <!DOCTYPE html>
 
-<head>
-    <meta charset="utf-8" />
-    <title>GPS SMS Map</title>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>GPS SMS Map</title>
 
-    <!-- Bootstrap -->
-    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.0/css/bootstrap-combined.min.css" rel="stylesheet" />
+        <!-- Bootstrap -->
+        <!--<link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.0/css/bootstrap-combined.min.css" rel="stylesheet" />
+        use the local files, because the internet here's so damn slow.
+        <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.0/js/bootstrap.min.js"></script>
+        <script src="http://code.jquery.com/jquery.js"></script>
+        -->
+        <link href="{{ STATIC_URL }}bootstrap.min.css" rel="stylesheet" />
+        <script src="{{ STATIC_URL }}bootstrap.min.js"></script>
+        <script src="{{ STATIC_URL }}jquery-1.8.1.min.js"></script>
 
-    <!-- own stylesheet -->
-    <link rel="stylesheet" href="/static/style.css">
-</head>
+        <!-- own stylesheet -->
+        <link rel="stylesheet" href="{{ STATIC_URL }}style.css">
+    </head>
 
-<body>
-    {% block body %}nothing here{% endblock %}
-    <script src="http://code.jquery.com/jquery.js"></script>
-    <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.0/js/bootstrap.min.js"></script>
-</body>
+    <body onload="initialize()">
+        <header>
+            <div class="container">
+                <h1>GPS Map</h1> 
+            </div>
+        </header>
+        <div class='container'>
+            <div class="row">
+                <div id="sidebar" class="span3">
+                    {% block sidebar %}{% endblock %}
+                </div>
+                <div id="map" class="span9">
+                    {% block map %}{% endblock %}
+                </div>
+            </div>
+        </div>
+    </body>
 </html>

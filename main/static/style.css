@@ -1,7 +1,11 @@
-#sidebar {
-    width: 200px;
+#map {
+    height: 500px;
 }
 
-#map {
+header {
+    margin-bottom: 10px;
+}
 
+#sidebar input {
+    margin-bottom: 5px;    
 }
