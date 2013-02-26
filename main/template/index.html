@@ -1,5 +1,12 @@
 {% extends "layout.html" %}
 {% block sidebar %}
+    {% if not id %}
+        <p class="text-error">Please choose a phone!</p>
+    {% else %}
+        <p class="text-error">
+            We have {{ coordinates|length }} values for this phone!
+        </p>
+    {% endif %}
 
     <ul class="nav nav-tabs nav-stacked">
         {% for user in user_list %}
@@ -7,9 +14,8 @@
             <li {% if id == user.id %} class="active" {% endif %}>
                 <a href="/show/{{ user.id }}">
                     {{ user.name }}: {{ user.phone }}
-                    <button class="btn btn-small btn-danger pull-right"
-                            onclick="window.location = 'delete/{{ user.id }}'; return false" >
-                            
+                    <button class="btn btn-mini btn-danger pull-right"
+                            onclick="window.location = '/delete/{{ user.id }}'; return false" >
                         x
                     </button>
                 </a>
@@ -32,23 +38,26 @@
     </script>
     <script>
 function initialize() {
-  var myLatLng = new google.maps.LatLng(0, -180);
+  var myLatLng = new google.maps.LatLng(34.5333, 69.1667);
   var mapOptions = {
-    zoom: 3,
+    zoom: 12,
     center: myLatLng,
     mapTypeId: google.maps.MapTypeId.TERRAIN
   };
 
   var map = new google.maps.Map(document.getElementById("map"),
       mapOptions);
-  var flightPlanCoordinates = [
-    new google.maps.LatLng(37.772323, -122.214897),
-    new google.maps.LatLng(21.291982, -157.821856),
-    new google.maps.LatLng(-18.142599, 178.431),
-    new google.maps.LatLng(-27.46758, 153.027892)
+  var gpsCoordinates = [
+    {% for coordinate in coordinates %}
+        new google.maps.LatLng(coordinate.latitude, coordinate.longitude),
+    {% endfor %}
+    //new google.maps.LatLng(37.772323, -122.214897),
+    //new google.maps.LatLng(21.291982, -157.821856),
+    //new google.maps.LatLng(-18.142599, 178.431),
+    //new google.maps.LatLng(-27.46758, 153.027892)
   ];
   var flightPath = new google.maps.Polyline({
-    path: flightPlanCoordinates,
+    path: gpsCoordinates,
     strokeColor: "#FF0000",
     strokeOpacity: 1.0,
     strokeWeight: 2

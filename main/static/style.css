@@ -2,10 +2,19 @@
     height: 500px;
 }
 
+#map img {
+    /* http://stackoverflow.com/questions/9141249/twitter-bootstrap-css-affecting-google-maps */
+    max-width: none;
+}
+
 header {
     margin-bottom: 10px;
 }
 
 #sidebar input {
-    margin-bottom: 5px;    
+    margin-bottom: 5px;
+}
+
+#sidebar li a {
+    vertical-align: top;
 }
