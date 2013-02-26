@@ -15,7 +15,10 @@
                 <a href="/show/{{ user.id }}">
                     {{ user.name }}: {{ user.phone }}
                     <button class="btn btn-mini btn-danger pull-right"
-                            onclick="window.location = '/delete/{{ user.id }}'; return false" >
+                            onclick="if (confirm('Delete?')) {
+                                            window.location = '/delete/{{ user.id }}';
+                                     }
+                                     return false" >
                         x
                     </button>
                 </a>
@@ -49,7 +52,7 @@ function initialize() {
       mapOptions);
   var gpsCoordinates = [
     {% for coordinate in coordinates %}
-        new google.maps.LatLng(coordinate.latitude, coordinate.longitude),
+        new google.maps.LatLng({{ coordinate.latitude }}, {{ coordinate.longitude }}),
     {% endfor %}
     //new google.maps.LatLng(37.772323, -122.214897),
     //new google.maps.LatLng(21.291982, -157.821856),
