@@ -4,7 +4,8 @@ GPS/SMS tracking with Fusion Tables
 
 **Be aware: This is just a proof of concept.**
 
-SMS GPS tracking
+SMS GPS tracking with some devices I don't know the model of.
+This is just a proof of concept, I wouldn't recommend to use it.
 
 Installation
 ============
@@ -13,10 +14,12 @@ Basically you need:
 
 - gammu
 - python-gammu
+- django
+- postgresql
 
-You can install those packages with::
+You can install those packages with (under **Ubuntu**)::
 
-    sudo apt-get install gammu python-gammu
+    ./install.sh
 
 To use gammu (for receiving SMS) you need to configure it.
 
@@ -27,18 +30,3 @@ with it, e.g. this is mine::
     device = /dev/ttyACM3
     name = SAMSUNG_Electr 680e
     connection = at
-
-Register Google Account for Fusion Tables
------------------------------------------
-Enable google api access:
-
-- goto https://code.google.com/apis/console
-- ("create")
-- enable fusion tables api
-- gogo API Access and Create an OAuth 2.0 client ID
-
-  - Call the new project (Client ID) tracker
-  - Choose "Installed application"
-  - Create client ID
-
-- Take this client id and feed it 
