@@ -1,5 +1,6 @@
 import time
 import re
+import sys
 
 import gammu
 from django.core.management.base import BaseCommand
@@ -38,6 +39,7 @@ class Command(BaseCommand):
         print('Network code: %s' % netinfo['NetworkCode'])
         print('LAC: %s' % netinfo['LAC'])
         print('CID: %s' % netinfo['CID'])
+        sys.stdout.flush()
 
     def update_db(self):
         def degree_to_float(deg):
@@ -55,7 +57,7 @@ class Command(BaseCommand):
                 print("message: phone number not registered",
                                     number, text)
             else:
-                match = re.match('[*%][^*%]+[*%]([\d.]+),E,([\d.]+),N', text)
+                match = re.match('[*][^*]+[*]([\d.]+),E,([\d.]+),N', text)
                 if not match:
                     print("message: no coordinates", number, text)
                 else:
@@ -73,6 +75,7 @@ class Command(BaseCommand):
                     if not models.Coordinate.objects.filter(**dct):
                         c = models.Coordinate(**dct)
                         c.save()
+            sys.stdout.flush()
 
     def register(self, user):
         interval = "05"  # must be between 04-59
@@ -102,17 +105,19 @@ class Command(BaseCommand):
         }
         print('Send SMS: %s' % dct)
         self.sm.SendSMS(dct)
+        sys.stdout.flush()
 
     def _fetch_sms_list(self):
         result = []
         latest = None
+        folder = 0
         for i in range(1, 1000):
             try:
-                sms_dict = self.sm.GetSMS(2, i)
+                sms_dict = self.sm.GetSMS(folder, i)
             except gammu.ERR_EMPTY:
                 continue
             except gammu.ERR_INVALIDLOCATION:
-                break
+                continue
 
             sms = sms_dict[0]
             # somehow all sms
@@ -122,6 +127,8 @@ class Command(BaseCommand):
                 else:
                     latest = max(latest, sms['DateTime'])
                 result.append(sms)
+            # make place for new sms
+            self.sm.DeleteSMS(folder, i)
         if latest is not None:
             self.latest = latest
         return result
