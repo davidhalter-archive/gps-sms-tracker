@@ -37,3 +37,9 @@ def index(request, id=None):
 def delete(request, id):
     models.User.objects.filter(id=id).delete()
     return redirect('/')
+
+def register(request, id):
+    u = models.User.objects.filter(id=id)[0]
+    u.need_register = True
+    u.save()
+    return redirect('/')

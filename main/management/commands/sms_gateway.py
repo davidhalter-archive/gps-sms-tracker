@@ -55,7 +55,7 @@ class Command(BaseCommand):
                 print("message: phone number not registered",
                                     number, text)
             else:
-                match = re.match('\*[^*]+\*([\d.]+),E,([\d.]+),N', text)
+                match = re.match('[*%][^*%]+[*%]([\d.]+),E,([\d.]+),N', text)
                 if not match:
                     print("message: no coordinates", number, text)
                 else:

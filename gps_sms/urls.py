@@ -8,6 +8,7 @@ urlpatterns = patterns('',
     url(r'^$', 'main.views.index', name='home'),
     url(r'^delete/(?P<id>\d+)$', 'main.views.delete'),
     url(r'^show/(?P<id>\d+)$', 'main.views.index'),
+    url(r'^register/(?P<id>\d+)$', 'main.views.register'),
     # url(r'^gps_sms/', include('gps_sms.foo.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:

@@ -21,6 +21,13 @@
                                      return false" >
                         x
                     </button>
+                    <button class="btn btn-mini btn-success pull-right"
+                            onclick="if (confirm('Register?')) {
+                                            window.location = '/register/{{ user.id }}';
+                                     }
+                                     return false" >
+                        ?
+                    </button>
                 </a>
             </li>
         {% endfor %}
@@ -50,18 +57,25 @@ function initialize() {
 
   var map = new google.maps.Map(document.getElementById("map"),
       mapOptions);
+
+  var nowSymbol = {
+      path: 'M -2,0 0,-2 2,0 0,2 z',
+      strokeColor: '#0F0',
+      fillColor: '#0F0',
+      fillOpacity: 1
+  };
+
   var gpsCoordinates = [
     {% for coordinate in coordinates %}
         new google.maps.LatLng({{ coordinate.latitude }}, {{ coordinate.longitude }}),
     {% endfor %}
     //new google.maps.LatLng(37.772323, -122.214897),
-    //new google.maps.LatLng(21.291982, -157.821856),
-    //new google.maps.LatLng(-18.142599, 178.431),
-    //new google.maps.LatLng(-27.46758, 153.027892)
   ];
+
   var flightPath = new google.maps.Polyline({
     path: gpsCoordinates,
     strokeColor: "#FF0000",
+    icons: [{icon: nowSymbol, offset: '100%'}],
     strokeOpacity: 1.0,
     strokeWeight: 2
   });
