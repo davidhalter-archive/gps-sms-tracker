@@ -3,6 +3,7 @@ set -v
 
 sudo aptitude install gammu python-gammu
 sudo aptitude install postgresql
+sudo aptitude install python-pip
 
 # create postgres user with the current name
 sudo -u postgres createuser `whoami` -s
