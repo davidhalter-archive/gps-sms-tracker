@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 # show all commands
 set -v
 
